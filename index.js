@@ -161,6 +161,7 @@ app.post("/login", (req, res) => {
   res.send(token);
 });
 
+
 // Verification of JWT
 app.get("/user/validateToken", (req, res) => {
   // Tokens are generally passed in header of request
