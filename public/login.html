@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<link rel="stylesheet" href="login.css">
+	<meta charset = "UTF-8">
+	<title> My Form </title>
+	<style>
+		#mylink{
+			font-size: 25px;
+		}
+	</style>
+</head>
+<body align='center'>
+	
+	<div class="container">
+		<form action="/login" method="POST">
+			<h1>Login</h1>
+
+				<div class="username t-input">	
+				<input type ="text" required="" name="email" id = "email" placeholder="abc@example.com" required>
+				<label for="username">Email ID</label>
+				<div class="b-line"></div>	
+				</div><br>
+
+				<div class="password t-input">	
+				<input type="password" required="" name="password" id = "password" placeholder="." required />
+				<label for="password">Password</label>
+				<div class="b-line"></div>	
+				</div><br>
+				
+				<div class="check">
+					<input type="checkbox" name="os" id="ch1" />
+					<label for="ch1">Remember me</label>
+				</div>
+				<div class="b-line"></div>
+				<button type ="reset">Reset</button><br>
+				<button type ="submit">Submit</button>
+			<br><br><br>
+			<h6 style="color:rgb(255, 255, 255)">Not registered?</h6>
+			<a style="color:deeppink" id="mylink" href="./registration.html">Register</a>
+			</form>
+			<br><br>
+			
+		</div>
+
+</body>
+</html>
