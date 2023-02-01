@@ -10,7 +10,10 @@
 }
 body {
   background: linear-gradient(#02173f, #0a315e);
-  background-image: url('./static/bglanding.png');
+  background-image: url('./static/neobg.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
   font-family: "Open Sans", sans-serif;
 }
 .container {
