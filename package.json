@@ -1,0 +1,43 @@
+{
+  "name": "backend-mevn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "server": "nodemon --max-old-space-size=4076 --inspect server.js --ignore 'client/'",
+    "client": "npm run serve --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "heapdump": "^0.3.15",
+    "jsonwebtoken": "^9.0.0",
+    "mongo4j": "^4.0.3",
+    "mongoose": "^7.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "neo4j-driver": "^5.6.0",
+    "node-wordnet": "^0.1.12",
+    "sass": "^1.59.3",
+    "stopword": "^2.0.7",
+    "tesseract.js": "^4.0.2",
+    "v-network-graph": "^0.8.2",
+    "v-pagination-3": "^0.1.7",
+    "vue-cookies": "^1.8.3",
+    "vue-pagination": "^0.3.3",
+    "vuejs-paginate": "^2.1.0",
+    "wndb-with-exceptions": "^3.0.2",
+    "wordnet-db": "^3.1.14"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0",
+    "nodemon": "^2.0.21"
+  }
+}
