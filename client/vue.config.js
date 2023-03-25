@@ -3,7 +3,7 @@ module.exports = {
     devServer: {
       proxy: {
         'api/': {
-          target: 'https://graph-lit.vercel.app/',
+          target: 'https://graph-lit-server.vercel.app/',
         }
       }
     }
