@@ -1,4 +1,4 @@
-# graphlit
+# GraphLit
 A keyword search system for text based images
 Refereences:
 
