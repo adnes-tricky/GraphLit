@@ -27,7 +27,7 @@ app.use('/api/loginUser',loginUserRoutes)
 app.use('/api/uploadImage',uploadImageRoutes)
 app.use('/api/fetchImage',fetchImageRoutes)
 app.use('/api/searchGraphKeyword',searchGraphKeywordRoutes)
-const {mongoConfig}= require('./dbconfig')
+//const {mongoConfig}= require('./dbconfig')
 //app.get('/', (req,res)=> console.log('Hello World'))
 
 const heapdump = require('heapdump');
@@ -44,7 +44,5 @@ app.get('/heapdump', (req, res) => {
 });
 
 app.listen(PORT,async () => {
-  console.log(`App listening at httl://localhost:${PORT}`);
-  //await mongoConfig()
-  //console.log(process.env.MONGO_URI)
+  console.log(`App listening at http://localhost:${PORT}`);
 })

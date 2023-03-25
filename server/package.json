@@ -6,7 +6,9 @@
   "scripts": {
     "server": "nodemon --max-old-space-size=4076 --inspect server.js --ignore 'client/'",
     "client": "npm run serve --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm run client && npm run build-server",
+    "build-server": "tsc"
   },
   "keywords": [],
   "author": "",
