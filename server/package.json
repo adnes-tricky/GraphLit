@@ -7,8 +7,8 @@
     "server": "nodemon --max-old-space-size=4076 --inspect server.js --ignore 'client/'",
     "client": "npm run serve --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "npm run client && npm run build-server",
-    "build-server": "tsc"
+    "build": "mkdir dist && xcopy /E /I /Q src dist",
+    "start": "node dist/server.js"
   },
   "keywords": [],
   "author": "",
@@ -32,13 +32,7 @@
     "sass": "^1.60.0",
     "stopword": "^2.0.8",
     "tesseract.js": "^4.0.2",
-    "v-network-graph": "^0.9.1",
-    "v-pagination-3": "^0.1.7",
-    "vue-cookies": "^1.8.3",
-    "vue-pagination": "^0.3.3",
-    "vuejs-paginate": "^2.1.0",
-    "wndb-with-exceptions": "^3.0.2",
-    "wordnet-db": "^3.1.14"
+    "wndb-with-exceptions": "^3.0.2"
   },
   "devDependencies": {
     "concurrently": "^7.6.0",
