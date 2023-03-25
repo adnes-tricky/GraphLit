@@ -27,7 +27,6 @@ router.post('/', upload.array('file',10), async (req, res) => {
                 created_date: String(req.body.created_date)
             }
             await new Image(imageObj).save();
-            await mongoDisconnect();
 
             delete(imageObj.image)
             const linkWordSet = new Set();
@@ -44,7 +43,7 @@ router.post('/', upload.array('file',10), async (req, res) => {
         await Promise.all(filePromises);
         fileData=[];
         req.body={};
-        
+        await mongoDisconnect();
         res.status(200).json({ message: 'Image uploaded successfully' });
     } 
     catch (error) {

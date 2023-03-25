@@ -1,39 +1,43 @@
 const mongoose = require("mongoose");
+Promise  = require('bluebird');
+mongoose.Promise = Promise;
 const neo4j=require('neo4j-driver')
 var driver, db;
 let sessionCount=0;
-var Mongoose = require('mongoose/lib').Mongoose;
-async function mongoConfig(){ 
-    mongoose.set("strictQuery", true);
-    await mongoose
-    .connect(process.env.MONGO_URI, {
+// var Mongoose = require('mongoose/lib').Mongoose;
+async function mongoConfig() {
+    const connectionParams={
         useNewUrlParser: true,
-        useUnifiedTopology: true,
-        // number of socket connection to keep open
-        maxPoolSize: 1000
-    })
-    .then(() => console.log('MongoDB database Connected ....'))
-    .catch((err) => console.log(err))
-    // db=new Mongoose().createConnection(process.env.MONGO_URI,
-    //     {
-    //         useNewUrlParser: true,
-    //         useUnifiedTopology: true
-    //     })
-    //     console.log('MongoDB database Connected ....')
-}
+        useUnifiedTopology: true 
+    }
+    mongoose.connect(process.env.MONGO_URI,connectionParams)
+        .then( () => {
+            console.log('Mongoose Connected to the database cluster ')
+        })
+        .catch( (err) => {
+            console.error(`Error connecting to the database. n${err}`);
+        })
+  }
+  
 
 async function mongoDisconnect(){
-   // db.close().then(() => console.log('Connection closed'));
     delete mongoose.connection.models['Image'];
     delete mongoose.connection.collections['Image'];
     //delete mongoose.connection.base.modelSchemas['Image'];
+    await mongoose.connection.close().then(() => {
+        console.log('Mongoose connection to cluster disconnected');
+        process.exit(0);
+      }).catch((error) => {
+        console.error('Error occurred while closing connection: ', error);
+        process.exit(1);
+      });
 }
 
 async function neoDriverOpen(){
     console.log("Neo driver open")
     driver=neo4j.driver(
-        "neo4j+s://2d69efaf.databases.neo4j.io",
-        neo4j.auth.basic("neo4j","LuxOA1vEqYcFTUspxh4ipsZvQDvQ0_i0CfcA4hm1zes")
+        process.env.NEO4J_URI,
+        neo4j.auth.basic(process.env.NEO4J_USERNAME,process.env.NEO4J_PASSWORD)
     );
 }
 
