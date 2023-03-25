@@ -27,7 +27,7 @@ router.post('/',async (req, res) => {
                 element['category']=element.category.join();
                 element['keywords']=element.keywords.join();
             });
-            console.log(resImage)
+            //console.log(resImage)
             finalRes=finalRes.concat(resImage)
             await neoDriverClose()
         }
