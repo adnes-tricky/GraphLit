@@ -42,7 +42,9 @@ app.get('/heapdump', (req, res) => {
     }
   });
 });
-
+app.get('/', () =>{
+  console.log("Server started: get root url");
+})
 app.listen(PORT,async () => {
   console.log(`App listening at http://localhost:${PORT}`);
 })
