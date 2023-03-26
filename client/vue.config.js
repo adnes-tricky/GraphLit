@@ -1,9 +1,11 @@
 module.exports = {
   configureWebpack: {
-    proxy: {
-      'api/': {
-        target: 'https://graph-lit-server.vercel.app/', // replace with appropriate URL
-      }
+    devServer: {
+      proxy: process.env.NODE_ENV !== 'production' ? {
+        'api/': {
+          target: 'https://graph-lit-server.vercel.app/',
+        }
+      } : {}
     }
   }  
 }
