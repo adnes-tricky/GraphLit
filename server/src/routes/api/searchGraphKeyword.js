@@ -5,7 +5,6 @@ const {neoDriverOpen, neoDriverClose}= require('../../dbconfig')
 router.post('/',async (req, res) => {
     try{
         var searchWords=req.body.searchword.split(" ");
-        console.log(req.body)
         var finalRes=[]
         for(let i=0;i<searchWords.length;i++){
             let  word=searchWords[i]
@@ -27,7 +26,6 @@ router.post('/',async (req, res) => {
                 element['category']=element.category.join();
                 element['keywords']=element.keywords.join();
             });
-            //console.log(resImage)
             finalRes=finalRes.concat(resImage)
             await neoDriverClose()
         }
