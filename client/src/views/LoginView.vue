@@ -12,8 +12,8 @@
 				<input type="password" name="password" id = "password" v-model="password" required/>
 			</div>
 
-			<button type ="reset">Reset</button>
-			<button type ="submit" @click="submitForm"><a href='/'></a>Submit</button>
+			<button type ="reset">Reset</button><br>
+			<button type ="submit" @click="submitForm"><a href='/'></a>Submit</button><br>
 			<h6 style="color:rgb(255, 255, 255)">Not registered?</h6>
 			<router-link to="/register">Register</router-link>
 	</form>

@@ -28,7 +28,7 @@
 			</div>
 
 			<button type ="reset">Reset</button><br>
-			<button type ="submit" @click="submitForm"><a href='/'></a>Submit</button>
+			<button type ="submit" @click="submitForm"><a href='/'></a>Submit</button><br>
 			<h6 style="color:rgb(255, 255, 255)">Already Registered user?</h6>
 			<router-link to="/login">Login</router-link>
 	</form>

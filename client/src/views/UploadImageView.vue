@@ -1,7 +1,7 @@
 <template>
     <div id="uploadImage">
-      <button @click="showUpload = true,showFetch = false">Upload Image</button>
-      <button @click="showFetch = true,showUpload = false">Fetch Image</button>
+      <button @click="showUpload = true,showFetch = false">Upload Image</button><br>
+      <button @click="showFetch = true,showUpload = false">Fetch Image</button><br>
       
       <div v-if="showUpload">
         <file-upload/>

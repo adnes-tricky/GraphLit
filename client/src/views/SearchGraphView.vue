@@ -11,15 +11,18 @@
             <input type="checkbox" name="keyword" id="keyword" v-model="keyword" />
             Keyword
         </label>
+        <br>
         <button type ="submit">Search</button>
         </form>
-        <button @click="showGraph = true,showTable = false">Link Graph</button>
-        <button @click="showTable = true,showGraph = false">Search Results</button>
+        <br>
+        <button @click="showGraph = true,showTable = false">Link Graph</button><br>
+        <button @click="showTable = true,showGraph = false">Search Results</button><br>
         <div v-if="showGraph">
             <h4>Graph View</h4>
             <network-graph :node-list="nodeList" :edge-list="edgeList"/>
         </div>
         <div v-if="showTable">
+            <h4>Search Results</h4>
             <table>
             <thead>
                 <tr>
@@ -30,7 +33,6 @@
                     <th>Keywords</th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr v-for="(item, index) in resTable" :key="index">
                     <td>{{ item.searchword }}</td>    
