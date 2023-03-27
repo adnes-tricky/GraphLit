@@ -1,5 +1,5 @@
 <template>
-    <nav>
+    <nav class="navbar">
       <ul>
         <li>
           <router-link to="/">Home</router-link>
@@ -19,44 +19,45 @@
         <li>
           <router-link to="/search">Search</router-link>
         </li>
-        <li>
-          <div v-if="isAuthenticated()"> {{ giveUsername() }} </div>
+        <li v-if="isAuthenticated()">
+          <div> {{ giveUsername() }} </div>
         </li>
-        <li>
-          <div v-if="isAuthenticated()"><a href="#" @click="logOut">logout</a></div>
+        <li v-if="isAuthenticated()">
+          <div><a href="#" @click="logOut">logout</a></div>
         </li>
       </ul>
     </nav>
     <router-view/>
   </template>
 
-  <script>
-  import VueCookie from 'vue-cookies';
-  export default{
-    data(){
-        return{
-            loggedIn: true
-        }
+<script>
+import VueCookie from 'vue-cookies';
+export default{
+  data(){
+      return{
+          loggedIn: true
+      }
+  },
+  methods:{
+    giveUsername(){
+      console.log(VueCookie.get('user'))
+      return VueCookie.get('user')
     },
-    methods:{
-      giveUsername(){
-        console.log(VueCookie.get('user'))
-        return VueCookie.get('user')
-      },
-      isAuthenticated(){
-        if(VueCookie.get('token')) this.loggedIn=true;
-        else this.loggedIn=false;
-        return !!VueCookie.get('token')
-      },
-      logOut(){
-        VueCookie.set('token', '');
-        VueCookie.set('user', '');
-        // this.$router.push('/');
-        this.loggedIn=false;
-        window.location.reload();
-      },
-    }
+    isAuthenticated(){
+      if(VueCookie.get('token')) this.loggedIn=true;
+      else this.loggedIn=false;
+      return !!VueCookie.get('token')
+    },
+    logOut(){
+      VueCookie.set('token', '');
+      VueCookie.set('user', '');
+      // this.$router.push('/');
+      this.loggedIn=false;
+      window.location.reload();
+    },
   }
-  </script>
+}
+</script>
+
   
   

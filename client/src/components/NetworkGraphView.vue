@@ -42,11 +42,14 @@
   </script>
   
   <style>
+  
   .graph {
-    width: 80vw;
-    height: 60vh;
-    border: 1px solid #fff;
-    background-color: #8bbdd9;
-  }
+  max-width: 95%;
+  height: 85vh;
+  border: 1px solid #fff;
+  margin: auto;
+  background-color: rgb(60, 42, 88);
+}
+
   </style>
   

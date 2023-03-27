@@ -1,8 +1,7 @@
 <template>
     <div id="app">
-	<form>
-			<h1>Register</h1>
-			
+        <h1>Register</h1>
+        <form>	
 			<div class="username">	
 				<label for="username">Username</label>
 				<input type ="text"   name="username" id = "username" v-model="username" required/>

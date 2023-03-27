@@ -1,7 +1,7 @@
 <template>
     <div class="search">
+      <h1>Search</h1>
       <form ref="form" @submit.prevent="submitForm">
-        <h1>Search</h1>
         <input type="text" name="searchword" id = "searchword" v-model="searchword" placeholder="Searchword" required/>
         <label>
             <input type="checkbox" name="category" id="category" v-model="category"/>
@@ -13,28 +13,35 @@
         </label>
         <button type ="submit">Search</button>
         </form>
-        <network-graph :node-list="nodeList" :edge-list="edgeList"/>
-        <table>
-        <thead>
-            <tr>
-                <th>Search Word</th>
-                <th>Image Name</th>
-                <th>Created Date</th>
-                <th>Category</th>
-                <th>Keywords</th>
-            </tr>
-        </thead>
+        <button @click="showGraph = true,showTable = false">Link Graph</button>
+        <button @click="showTable = true,showGraph = false">Search Results</button>
+        <div v-if="showGraph">
+            <h4>Graph View</h4>
+            <network-graph :node-list="nodeList" :edge-list="edgeList"/>
+        </div>
+        <div v-if="showTable">
+            <table>
+            <thead>
+                <tr>
+                    <th>Search Word</th>
+                    <th>Image Name</th>
+                    <th>Created Date</th>
+                    <th>Category</th>
+                    <th>Keywords</th>
+                </tr>
+            </thead>
 
-        <tbody>
-            <tr v-for="(item, index) in resTable" :key="index">
-                <td>{{ item.searchword }}</td>    
-                <td>{{ item.imagename }}</td>
-                <td>{{ item.created_date }}</td>
-                <td>{{ item.category }}</td>
-                <td>{{ item.keywords }}</td>
-            </tr>
-        </tbody>
-        </table>
+            <tbody>
+                <tr v-for="(item, index) in resTable" :key="index">
+                    <td>{{ item.searchword }}</td>    
+                    <td>{{ item.imagename }}</td>
+                    <td>{{ item.created_date }}</td>
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.keywords }}</td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
     </div>
 </template>
 <script>
@@ -54,7 +61,9 @@ export default{
             searchword: '',
             resTable: [],
             nodeList: {},
-            edgeList: {}
+            edgeList: {},
+            showGraph: false,
+            showTable: false
         }
     },
     methods: {
@@ -83,7 +92,7 @@ export default{
                 this.$refs.form.reset();
                 // clear the input values for the form data fields
                 this.resTable=this.resTable.concat(res)
-                
+                this.showTable=true;
                 const nodes = {};
                 const edges = {};
 

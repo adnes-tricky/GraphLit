@@ -1,8 +1,7 @@
 <template>
     <div id="loginUser">
-	<form>
-			<h1>Login</h1>
-            
+        <h1>Login</h1>
+        <form>
 			<div class="username">	
 				<label for="username">Email ID</label>
 				<input type ="text" name="email" id = "email" v-model="email" required/>

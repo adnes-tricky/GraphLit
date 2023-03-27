@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <h1>GraphLit</h1>
+    <h1>Get Started</h1>
     <div class="container">
       <div class="text-section">
         <p align="justify">
