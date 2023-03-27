@@ -3,11 +3,20 @@
     <form ref="form" @submit.prevent="uploadImage">
       <!-- <input type="file" ref="fileInput" @change="handleFileChange"/>
       <img :src="imagePreview"/> -->
-      <input type="file" @change="previewImage" multiple required/>
+      <label for="image-upload">Upload an image:</label>
+      <input 
+      id="image-upload"
+      type="file" 
+      accept=".jpg,.jpeg,.png,.bmp,.pbm"
+      @change="previewImage" 
+      @blur="validateFileInput()"
+      multiple 
+      required/>
+      <div id="error-message"></div>
       <!-- <img v-if="preview" :src="preview"/> -->
       <div v-for="(url, index) in previewUrls" :key="index">
         <img :src="url" alt="Preview Image" />
-      </div>
+      </div><br>
       <div>	
 				<label>Image name</label>
 				<input type ="text" name="image_name" id = "image_name" v-model="image_name" required/>
@@ -22,7 +31,8 @@
 			</div>
       <div>	
         <label>Date</label>
-				<input type ="date" name="create_date" id = "create_date" v-model="created_date" required/>
+        <input type ="date" name="create-date" id = "create-date" v-model="created_date" @blur="validateDate()" required/>
+        <div id="validate-date"></div>
 			</div>
       <button type="submit">Upload Image</button>
     </form>
@@ -46,21 +56,32 @@ export default {
   },
   methods: {
     previewImage(event) {
+      this.previewUrls=[];
       this.file = event.target.files;
       for (let i = 0; i < this.file.length; i++) {
         const imgfile = this.file[i];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-        this.previewUrls.push(event.target.result);
-        };
-        reader.readAsDataURL(imgfile);
+        if(this.validateFileInput({ target: { files: [imgfile] } })){
+          const reader = new FileReader();
+          reader.onload = (event) => {
+            this.previewUrls.push(event.target.result);
+          };
+          reader.readAsDataURL(imgfile);
+        } else {
+          // Clear selected file(s) from file input and break out of loop
+          event.target.value = null;
+          break;
+        }
       }
     },
-    uploadImage() {
+    uploadImage(event) {
       const batchSize=10;
       const numItems= this.file.length;
       const numBatches= Math.ceil(numItems/batchSize);
       const files=[];
+      if(!this.validateDate()){
+        event.preventDefault();
+        return;
+      }
       for(let i=0;i<this.file.length;i++){
         files.push(this.file[i]);
       }
@@ -100,7 +121,59 @@ export default {
       this.created_date=""
       this.$refs.form.reset()
     },
-  },
-  
+    validateFileInput(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        return;
+      }
+      const fileType = file.type;
+      if (
+        !(
+          fileType === "image/jpeg" ||
+          fileType === "image/png" ||
+          fileType === "image/bmp" ||
+          fileType === "image/x-portable-bitmap"
+        )
+      ) {
+        const errorMessage = "Please upload a JPG, PNG, BMP or PBM image";
+        document.getElementById("error-message").innerHTML = errorMessage;
+        return false;
+      } else {
+        document.getElementById("error-message").innerHTML = "";
+        return true;
+      }
+    },
+    convertDateFormat(dateString) {
+      const date = new Date(dateString);
+      const day = date.getDate().toString().padStart(2, '0');
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const year = date.getFullYear();
+      return `${day}/${month}/${year}`;
+    },
+    validateDate() {
+      const dobInput = document.getElementById('create-date');
+      const dobValue = dobInput.value;
+      const currentDate = new Date();
+      const dobRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/; // match dd/mm/yyyy format
+      const validateDate = document.getElementById('validate-date');
+      const [, day, month, year] = this.convertDateFormat(dobValue).match(dobRegex); // extract day, month, year from string
+      const dob = new Date(year, month - 1, day); // create new date object
+      const formattedDOB = this.convertDateFormat(dobValue);
+      if (dob > currentDate) {
+          validateDate.innerHTML = 'Date of creation must be before today';
+          return false;
+      }
+      if (dobValue.length===0) {
+          validateDate.innerHTML = 'Please enter a valid date';
+          return false;
+      }
+      if (!dobRegex.test(formattedDOB)) {
+          validateDate.innerHTML = 'Please enter a valid date in the format dd/mm/yyyy';
+          return false;
+      }
+      validateDate.innerHTML = '';
+      return true;
+    },
+  }, 
 };
 </script>

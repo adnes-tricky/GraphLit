@@ -2,13 +2,13 @@
     <div id="loginUser">
         <h1>Login</h1>
         <form>
-			<div class="username">	
-				<label for="username">Email ID</label>
-				<input type ="text" name="email" id = "email" v-model="email" required/>
+			<div>	
+				<label>Email ID</label>
+				<input type ="email" name="email" id = "email" v-model="email" required/>
 			</div>
 
-			<div class="password">	
-				<label for="password">Password</label>
+			<div>	
+				<label>Password</label>
 				<input type="password" name="password" id = "password" v-model="password" required/>
 			</div>
 
