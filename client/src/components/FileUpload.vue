@@ -1,43 +1,61 @@
 <template>
   <div>
     <form ref="form" @submit.prevent="uploadImage">
-      <!-- <input type="file" ref="fileInput" @change="handleFileChange"/>
-      <img :src="imagePreview"/> -->
       <label for="image-upload">Upload an image:</label>
-      <input 
-      id="image-upload"
-      type="file" 
-      accept=".jpg,.jpeg,.png,.bmp,.pbm"
-      @change="previewImage" 
-      @blur="validateFileInput()"
-      multiple 
-      required/>
+      <input
+        id="image-upload"
+        type="file"
+        accept=".jpg,.jpeg,.png,.bmp,.pbm"
+        @change="previewImage"
+        @blur="validateFileInput()"
+        multiple
+        required
+      />
       <div id="error-message"></div>
-      <!-- <img v-if="preview" :src="preview"/> -->
-      <div v-for="(url, index) in previewUrls" :key="index">
-        <img :src="url" alt="Preview Image" />
-      </div><br>
-      <div>	
-				<label>Image name</label>
-				<input type ="text" name="image_name" id = "image_name" v-model="image_name" required/>
-			</div>
-      <div>	
-				<label>Category</label>
-				<input type ="text" name="category" id = "category" v-model="category" />
-			</div>
-      <div>	
-				<label>Keywords</label>
-				<input type ="text" name="keywords" id = "keywords" v-model="keywords" />
-			</div>
-      <div>	
+      <button @click="resetImage()">Reset</button><br>
+      <div>
+        <label>Image name</label>
+        <input type="text" name="image_name" id="image_name" v-model="image_name" required />
+      </div>
+      <div>
+        <label>Category</label>
+        <input type="text" name="category" id="category" v-model="category" />
+      </div>
+      <div>
+        <label>Keywords</label>
+        <input type="text" name="keywords" id="keywords" v-model="keywords" />
+      </div>
+      <div>
         <label>Date</label>
-        <input type ="date" name="create-date" id = "create-date" v-model="created_date" @blur="validateDate()" required/>
+        <input type="date" name="create-date" id="create-date" v-model="created_date" @blur="validateDate()" required/>
         <div id="validate-date"></div>
-			</div>
-      <button type="submit">Upload Image</button>
+      </div>
+      <button type="submit">Upload Image</button><br>
+      <button @click="togglePreviews">
+        <i class="material-icons" v-if="showPreviews" >visibility</i>
+        <i class="material-icons visibility-off" v-else>visibility_off</i>
+      </button>
+      <div class="preview-container" v-for="(url, index) in previewUrls" :key="index" v-show="showPreviews">
+        <img :src="url.url" alt="Preview Image" /><br>
+        <div v-text="url.name"></div>
+      </div><br>
     </form>
   </div>
 </template>
+
+<style>
+.preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+}
+.material-icons {
+  font-family: "Material Icons";
+  font-size: 48px;
+  color: #fff;
+}
+</style>
 
 <script>
 import axios from 'axios';
@@ -52,18 +70,24 @@ export default {
       category: "",
       keywords: "",
       created_date: "",
+      showPreviews: true
     };
   },
   methods: {
     previewImage(event) {
-      this.previewUrls=[];
+      this.previewUrls = [];
       this.file = event.target.files;
       for (let i = 0; i < this.file.length; i++) {
         const imgfile = this.file[i];
-        if(this.validateFileInput({ target: { files: [imgfile] } })){
+        if (this.validateFileInput({ target: { files: [imgfile] } })) {
           const reader = new FileReader();
           reader.onload = (event) => {
-            this.previewUrls.push(event.target.result);
+            this.resizeImage(event.target.result, 400, 400, (resizedDataUrl) => {
+              this.previewUrls.push({
+                url: resizedDataUrl,
+                name: imgfile.name
+              });
+            });
           };
           reader.readAsDataURL(imgfile);
         } else {
@@ -72,6 +96,50 @@ export default {
           break;
         }
       }
+    },
+    togglePreviews() {
+      this.showPreviews = !this.showPreviews;
+    },
+    resetImage(){
+      // Get the file input element
+      const fileInput = document.getElementById("image-upload");
+      // Reset the file input and previews
+      fileInput.value = null;
+      this.previewUrls=[]
+    },
+    resizeImage(dataUrl, maxWidth, maxHeight, callback) {
+      const img = new Image();
+      img.src = dataUrl;
+      img.onload = () => {
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob((blob) => {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const resizedDataUrl = reader.result;
+            callback(resizedDataUrl);
+          };
+          reader.readAsDataURL(blob);
+        }, 'image/jpeg', 0.8);
+      };
     },
     uploadImage(event) {
       const batchSize=10;

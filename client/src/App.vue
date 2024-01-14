@@ -15,7 +15,7 @@
 @import '../node_modules/@picocss/pico/css/pico.classless.min.css';
 /* Your custom styles */
 :root{
-        background-color: black;
+        background-color: rgb(221, 153, 255);
         color:aliceblue;
       }
 :root:not([data-theme=dark]){
@@ -27,16 +27,16 @@ body{
   color: white;
 }
 p {
-  color: aliceblue;
+  color: black;
   font-size: 1.5vw; /* Set font size relative to viewport width */
 }
 h1{
-  color: rgb(201, 168, 251);
+  color: black;
   margin: 20px 0;
   text-align: center; /* Center align */
 }
 h4{
-  color: rgb(201, 168, 251);
+  color: black;
   margin: 10px 0;
   text-align: center; /* Center align */
 }
@@ -44,7 +44,7 @@ label{
   color: aliceblue;
 }
 a {
-  color: rgb(162, 82, 247);
+  color: black;
 }
 a:hover {
   color: rgb(77, 38, 117);
@@ -69,16 +69,16 @@ input{
   color: aliceblue;
 }
 td{
-  color: aliceblue;
+  color: black;
 }
 th{
-  color:rgb(162, 82, 247);
+  color:black;
 }
 form{
   max-width: 45vw;
   height: 100%;
   margin: auto;
-  background-color: rgb(19, 7, 39);
+  background-color: black;
   padding: 20px;
 }
 img{

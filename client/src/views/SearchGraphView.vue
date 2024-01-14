@@ -97,7 +97,7 @@ export default{
                 this.showTable=true;
                 const nodes = {};
                 const edges = {};
-
+                console.log(this.resTable)
                 this.resTable.forEach((item, index) => {
                 // Create a new node if it doesn't already exist
                 if (!nodes[item.imagename]) {
