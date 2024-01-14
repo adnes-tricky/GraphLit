@@ -2,9 +2,11 @@ const { Router }= require('express')
 const RegisterUser = require('../../models/RegisterUser.js')
 const bcrypt= require('bcrypt')
 const router = Router()
+const {mongoConfig,mongoDisconnect}= require('../../dbconfig')
 
 router.get('/:id', async(req, res) => {
     var {id} = req.params
+    await mongoConfig();
     try{
         var users = await RegisterUser.findById(id)
         if(!users) throw new Error('No users')
@@ -12,9 +14,11 @@ router.get('/:id', async(req, res) => {
     } catch(error){
         res.status(500).json({message: error.message})
     }
+    await mongoDisconnect();
 })
 
 router.post('/', async (req, res) => {
+    await mongoConfig();
     var newUser = new RegisterUser(req.body)
     let usrexst= await RegisterUser.exists({username: newUser.username});
     let emailexst= await RegisterUser.exists({email: newUser.email});
@@ -45,9 +49,11 @@ router.post('/', async (req, res) => {
     }catch(error){
         res.status(500).json({message: error.message})
     }
+    await mongoDisconnect();
 })
 
 router.put('/:id', async(req,res)=> {
+    await mongoConfig();
     var {id} = req.params
     try{
         var response = await RegisterUser.findByIdAndUpdate(id, req.body)
@@ -57,9 +63,11 @@ router.put('/:id', async(req,res)=> {
     }catch(error){
         res.status(500).json({message: error.message})
     }
+    await mongoDisconnect();
 })
 
 router.delete('/:id', async (req,res) =>{
+    await mongoConfig();
     var {id}=req.params
     try{
         var removed = await RegisterUser.findByIdAndDelete(id)
@@ -68,6 +76,7 @@ router.delete('/:id', async (req,res) =>{
     }catch(error){
         res.status(500).json({message: error.message})
     }
+    await mongoDisconnect();
 })
 
 module.exports = router

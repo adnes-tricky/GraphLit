@@ -5,12 +5,12 @@ const neo4j=require('neo4j-driver')
 var driver, db;
 let sessionCount=0;
 // var Mongoose = require('mongoose/lib').Mongoose;
-async function mongoConfig() {
+async function mongoCloudConfig() {
     const connectionParams={
         useNewUrlParser: true,
         useUnifiedTopology: true 
     }
-    mongoose.connect(process.env.MONGO_URI,connectionParams)
+    await mongoose.connect(process.env.CLOUD_MONGO_URI,connectionParams)
         .then( () => {
             console.log('Mongoose Connected to the database cluster ')
         })
@@ -18,9 +18,23 @@ async function mongoConfig() {
             console.error(`Error connecting to the database. n${err}`);
         })
   }
-  
+async function mongoConfig(){ 
+    mongoose.set("strictQuery", true);
+    await mongoose
+    .connect('mongodb://127.0.0.1:27017/', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
+    .then(() => console.log('MongoDB database Connected ....'))
+    .catch((err) => console.log(err))
+} 
 
 async function mongoDisconnect(){
+    delete mongoose.connection.models['Image'];
+    delete mongoose.connection.collections['Image'];
+}
+
+async function mongoCloudDisconnect(){
     delete mongoose.connection.models['Image'];
     delete mongoose.connection.collections['Image'];
     //delete mongoose.connection.base.modelSchemas['Image'];
@@ -66,4 +80,4 @@ async function neoConfig(query, params){
         sessionCount--;
     }
 }
-module.exports = {mongoConfig, mongoDisconnect, neoConfig, neoDriverOpen, neoDriverClose, driver, db};
+module.exports = {mongoConfig, mongoCloudConfig, mongoDisconnect, mongoCloudDisconnect, neoConfig, neoDriverOpen, neoDriverClose, driver, db};
